@@ -11,7 +11,7 @@ module.exports = () => {
 
     passport.deserializeUser((userInfo, done) => {
         const {id, type} = userInfo;
-        if (userType.isJobSeekerType(type)) {
+        if (userType.JOB_SEEKER === type) {
             console.log("구직자 로그인 인증!");
             JobSeeker.findOne({where: {id}})
                 .then(JobSeeker => done(null, JobSeeker))

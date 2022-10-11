@@ -1,5 +1,5 @@
 const express = require("express");
-const {authService} = require('../../service/index');
+const {authService} = require('../../services');
 const wrapAsync = require('../wrapAsync');
 
 const router = express.Router();

@@ -1,12 +1,6 @@
 const userType = {
-    JOB_SEEKER: 'jobSeeker',
-    COMPANY: 'company',
-    isJobSeekerType: (value) => {
-        return this.JOB_SEEKER === value;
-    },
-    isCompanyType: (value) => {
-        return this.COMPANY === value;
-    },
+    JOB_SEEKER: 'JOB_SEEKER',
+    COMPANY: 'COMPANY',
 }
 
 module.exports = userType;

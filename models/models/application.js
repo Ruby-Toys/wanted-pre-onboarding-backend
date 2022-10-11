@@ -1,11 +1,12 @@
 const Sequelize = require('sequelize');
+const {applicationState} = require('../enums');
 
 module.exports = (sequelize) => {
     return sequelize.define(
         'Application',
         {
             state: {
-                type: Sequelize.STRING(20),
+                type: Sequelize.ENUM(...Object.values(applicationState)),
                 allowNull: false,
             }
         },
