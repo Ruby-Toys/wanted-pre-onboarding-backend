@@ -4,8 +4,12 @@ const {sequelize} = require('./models');
 const cookieParser = require("cookie-parser");
 const dotenv = require('dotenv');
 const session = require("express-session");
+const passport = require('passport');
+const passportConfig = require('./passport');
+const routers = require('./routes');
 
 dotenv.config();
+passportConfig();
 
 const app = express();
 
@@ -32,6 +36,10 @@ app.use(session({
         secure: false
     }
 }));
+app.use(passport.initialize({}));
+app.use(passport.session({}));
+
+routers(app);
 
 app.listen(app.get('port'), () => {
     console.log('서버 실행!')
