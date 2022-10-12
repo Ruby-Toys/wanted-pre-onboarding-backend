@@ -1,7 +1,7 @@
 const {authController} = require('../../controllers');
 jest.mock("../../services")
 const {authService} = require("../../services");
-const {existsEmailException} = require("../../exception/jobSeekerException");
+const {httpStatusCode} = require("../../routes/enums");
 
 describe('signUpOfJobSeeker 테스트', () => {
     const req = {}
@@ -12,7 +12,7 @@ describe('signUpOfJobSeeker 테스트', () => {
     const next = jest.fn();
 
     test('DB 에 구직자 정보 처리 중 에러 발생시 next(error) 호출', async () => {
-        const error = existsEmailException.error();
+        const error = 'error!';
         authService.signUpOfJobSeeker.mockReturnValue(Promise.reject(error))
 
         await authController.signUpOfJobSeeker(req, res, next);
@@ -30,7 +30,7 @@ describe('signUpOfJobSeeker 테스트', () => {
 
         await authController.signUpOfJobSeeker(req, res, next);
 
-        expect(res.status).toBeCalledWith(200);
+        expect(res.status).toBeCalledWith(httpStatusCode.OK);
         expect(res.json).toBeCalledWith({
             name: mockReturnValue.name,
             email: mockReturnValue.email

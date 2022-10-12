@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
     return sequelize.define(
-        'JobPosting',
+        'jobPosting',
         {
             title: {
                 type: Sequelize.STRING(100),

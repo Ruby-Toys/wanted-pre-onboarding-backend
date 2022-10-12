@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
     return sequelize.define(
-        'Company',
+        'company',
         {
             name: {
                 type: Sequelize.STRING(50),

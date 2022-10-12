@@ -16,7 +16,6 @@ const Company = companyModel(sequelize, Sequelize);
 const JobPosting = jobPostingModel(sequelize, Sequelize);
 const Application = applicationModel(sequelize, Sequelize);
 
-JobSeeker.hasMany(Resume, {as: 'resumes', onDelete: 'CASCADE'})
 Resume.belongsTo(JobSeeker);
 JobPosting.belongsTo(Company);
 Application.belongsTo(Resume);
