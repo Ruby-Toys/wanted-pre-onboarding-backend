@@ -8,9 +8,6 @@ const existsEmailException = {
         error.status = this.status;
         return error;
     },
-    throw : () => {
-        throw this.error();
-    }
 }
 
 module.exports = {
