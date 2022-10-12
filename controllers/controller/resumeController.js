@@ -8,8 +8,4 @@ exports.postResume = wrapAsync(async (req, res, next) => {
 
     await resumeService.postResume(resume);
     return res.status(httpStatusCode.OK);
-})
-
-exports.loginOfJobSeeker = wrapAsync(async (req, res, next) => {
-
-})
+});

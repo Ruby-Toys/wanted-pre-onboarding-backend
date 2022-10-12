@@ -1,8 +1,6 @@
 const {authService} = require('../../services/');
 const {sequelize, JobSeeker, Company} = require("../../models");
 const {existsEmailException} = require("../../exceptions/commonException");
-const bcrypt = require("bcrypt");
-
 
 beforeAll(async () => {
     await sequelize.sync({force : true});
@@ -87,8 +85,8 @@ describe('signUpJobSeeker 테스트',  () => {
             "careerPeriod" : 17
         }
 
-        const js = await authService.signUpJobSeeker(jobSeeker);
-        expect(js.email).toEqual(jobSeeker.email);
+        const savedJobSeeker = await authService.signUpJobSeeker(jobSeeker);
+        expect(savedJobSeeker.email).toEqual(jobSeeker.email);
     });
 })
 
@@ -261,7 +259,7 @@ describe('signUpCompany 테스트', () => {
             "password" : "asdwqdsadasd",
         }
 
-        const cp = await authService.signUpCompany(company);
-        expect(cp.recruiterEmail).toEqual(company.recruiterEmail);
+        const savedCompany = await authService.signUpCompany(company);
+        expect(savedCompany.recruiterEmail).toEqual(company.recruiterEmail);
     });
 });

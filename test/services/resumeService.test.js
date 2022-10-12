@@ -1,5 +1,6 @@
 const {resumeService} = require('../../services');
 const {sequelize, Resume, JobSeeker} = require("../../models");
+const {notFoundJobSeekerException} = require("../../exceptions/jobSeekerException");
 
 let jobSeeker;
 
@@ -26,7 +27,7 @@ describe('postResume 테스트', () => {
             career: '엠브이소프텍 1년 7개월 근무',
             skills: '자바, 스프링',
             linkUrl: 'https://github.com/MisterRuby',
-            userId: jobSeeker.id
+            jobSeekerId: jobSeeker.id
         }
 
         await expect(resumeService.postResume(resume)).rejects.toThrow();
@@ -37,7 +38,7 @@ describe('postResume 테스트', () => {
             description: '지원자 김루비입니다!',
             skills: '자바, 스프링',
             linkUrl: 'https://github.com/MisterRuby',
-            userId: jobSeeker.id
+            jobSeekerId: jobSeeker.id
         }
 
         await expect(resumeService.postResume(resume)).rejects.toThrow();
@@ -48,10 +49,22 @@ describe('postResume 테스트', () => {
             description: '지원자 김루비입니다!',
             career: '엠브이소프텍 1년 7개월 근무',
             linkUrl: 'https://github.com/MisterRuby',
-            userId: jobSeeker.id
+            jobSeekerId: jobSeeker.id
         }
 
         await expect(resumeService.postResume(resume)).rejects.toThrow();
+    })
+
+    test('존재하지 않는 사용자 id로 이력서 등록 시 에러 발생', async () => {
+        const resume = {
+            description: '지원자 김루비입니다!',
+            career: '엠브이소프텍 1년 7개월 근무',
+            skills: '자바, 스프링',
+            linkUrl: 'https://github.com/MisterRuby',
+            jobSeekerId: jobSeeker.id + 99
+        }
+
+        await expect(resumeService.postResume(resume)).rejects.toEqual(notFoundJobSeekerException.error());
     })
 
     test('이력서 등록 성공', async () => {
@@ -63,8 +76,7 @@ describe('postResume 테스트', () => {
             jobSeekerId: jobSeeker.id
         }
 
-        await resumeService.postResume(resume);
-        const findAll = await Resume.findAll();
-        expect(findAll.length).toEqual(1);
+        const savedResume = await resumeService.postResume(resume);
+        expect(savedResume.description).toEqual(resume.description);
     })
 })
