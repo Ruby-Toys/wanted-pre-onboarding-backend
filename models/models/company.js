@@ -32,6 +32,10 @@ module.exports = (sequelize) => {
                 allowNull : false,
                 unique: true,
             },
+            recruiterName: {
+                type: Sequelize.STRING(20),
+                allowNull : false,
+            },
             password: {
                 type: Sequelize.STRING(100),
                 allowNull : false,

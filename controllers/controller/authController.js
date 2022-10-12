@@ -4,17 +4,17 @@ const passport = require("passport");
 const {httpStatusCode} = require("../../routes/enums");
 const {userType} = require("../../models/enums");
 
-exports.signUpOfJobSeeker = wrapAsync(async (req, res) => {
+exports.signUpJobSeeker = wrapAsync(async (req, res) => {
     const jobSeeker = req.body;
-    const signedJobSeeker = await authService.signUpOfJobSeeker(jobSeeker);
+    const signedJobSeeker = await authService.signUpJobSeeker(jobSeeker);
     const jobSeekerInfo = {
         name : signedJobSeeker.name,
         email : signedJobSeeker.email
     };
     return res.status(httpStatusCode.OK).json(jobSeekerInfo);
-})
+});
 
-exports.loginOfJobSeeker = (req, res, next) => {
+exports.loginJobSeeker = (req, res, next) => {
     passport.authenticate(userType.JOB_SEEKER, {}, (authError, jobSeeker, info) => {
             if (authError) {
                 console.error(authError);
@@ -39,4 +39,15 @@ exports.loginOfJobSeeker = (req, res, next) => {
             });
         }
     ) (req, res, next);
-}
+};
+
+exports.signUpCompany = wrapAsync(async (req, res) => {
+    const company = req.body;
+    const signedCompany = await authService.signUpCompany(company);
+    const companyInfo = {
+        name : signedCompany.name,
+        recruiterName : signedCompany.recruiterName,
+        recruiterEmail : signedCompany.recruiterEmail,
+    };
+    return res.status(httpStatusCode.OK).json(companyInfo);
+});

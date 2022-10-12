@@ -1,15 +1,42 @@
-const {JobSeeker} = require("../../models");
-const {existsEmailException} = require("../../exception/jobSeekerException");
+const {JobSeeker, Company, sequelize} = require("../../models");
+const {existsEmailException} = require("../../exceptions/commonException");
 const bcrypt = require("bcrypt");
 
-exports.signUpOfJobSeeker = async (jobSeeker) => {
-    const existsJobSeeker = await JobSeeker.findOne({where : {email : jobSeeker.email}});
+exports.signUpJobSeeker = async (jobSeeker) => {
+    return sequelize.transaction({}, async (transaction) => {
+        const existsJobSeeker = await JobSeeker.findOne(
+            {
+                where : {email : jobSeeker.email},
+                transaction
+            }
+        );
 
-    if (existsJobSeeker) throw existsEmailException.error();
+        if (existsJobSeeker) throw existsEmailException.error();
 
-    const hashPassword = await bcrypt.hash(jobSeeker.password, 12);
-    return await JobSeeker.create({
-        ...jobSeeker,
-        password : hashPassword
+        const hashPassword = await bcrypt.hash(jobSeeker.password, 12);
+        return JobSeeker.create({
+            ...jobSeeker,
+            password : hashPassword
+        }, {transaction})
+    });
+}
+
+exports.signUpCompany = async (company) => {
+
+    return sequelize.transaction({}, async (transaction) => {
+        const existsCompany = await Company.findOne(
+            {
+                where : {recruiterEmail : company.recruiterEmail},
+                transaction
+            }
+        );
+
+        if (existsCompany) throw existsEmailException.error();
+
+        const hashPassword = await bcrypt.hash(company.password, 12);
+        return Company.create({
+            ...company,
+            password : hashPassword
+        }, {transaction})
     })
 }
