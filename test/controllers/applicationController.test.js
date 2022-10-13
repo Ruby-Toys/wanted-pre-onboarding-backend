@@ -9,6 +9,7 @@ describe('postApplication 테스트', () => {
             resumeId : 55,
             jobPostingId : 11,
         },
+        user : {id : 1}
     }
     const res = {
         status: jest.fn(() => res),
