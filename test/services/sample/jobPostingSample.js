@@ -1,5 +1,5 @@
 const {Company, JobPosting} = require("../../../models");
-exports.setJobPostings = async () => {
+exports.getJobPostings = async () => {
     const wantedInfo = {
         "name" : "원티드",
         "description" : "채용사이트 원티드",
@@ -35,9 +35,20 @@ exports.setJobPostings = async () => {
             requiredSkills: '자바스크립트, 노드',
             deadlineAt,
             companyId: wanted.id
+        },
+        {
+            title: '원티드 유지보수',
+            description: '원티드는 개발자들의 채용을 돕는 플랫폼입니다.',
+            country: '대한민국',
+            region: '서울',
+            position: 'DevOps',
+            requiredSkills: 'AWS',
+            deadlineAt,
+            companyId: wanted.id
         }
     ];
-    await JobPosting.bulkCreate(wantedJobPostingInfos);
+    const wantedJobPostings = await JobPosting.bulkCreate(wantedJobPostingInfos);
+    wantedJobPostings.forEach(jp => jp.company = wanted);
 
     const appleInfo = {
         "name" : "애플",
@@ -76,5 +87,8 @@ exports.setJobPostings = async () => {
             companyId: apple.id
         }
     ];
-    await JobPosting.bulkCreate(appJobPostingInfos);
+    const appleJobPostings = await JobPosting.bulkCreate(appJobPostingInfos);
+    appleJobPostings.forEach(jp => jp.company = apple);
+
+    return [...wantedJobPostings, ...appleJobPostings];
 }

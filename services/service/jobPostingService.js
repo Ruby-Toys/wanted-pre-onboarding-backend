@@ -1,5 +1,5 @@
 const {Op} = require('sequelize');
-const {JobPosting, Company} = require("../../models");
+const {JobPosting, Company, sequelize} = require("../../models");
 const {isFailUpdate, isFailDelete} = require("../utils/queryUtils");
 const {getPaging} = require("../utils/pagingUtils");
 const {notfoundJobPostingException} = require("../../exceptions/jobPostingException");
@@ -40,6 +40,37 @@ exports.getJobPostings = async (searchForm) => {
     })
 }
 
+exports.getJobPosting = async (jobPostingId) => {
+    const jobPosting = await JobPosting.findOne({
+        include: [
+            {
+                model: Company,
+                attributes: ['name'],
+            }
+        ],
+        where: {id: jobPostingId}
+    });
+
+    if (jobPosting) {
+        const companyId = jobPosting.companyId;
+        jobPosting.relatedJobPostings = await JobPosting.findAll({
+            include: [
+                {
+                    model: Company,
+                    attributes: ['name'],
+                }
+            ],
+            where: {
+                companyId,
+                [Op.not] : [{id : jobPostingId}]
+            }
+        });
+
+        return jobPosting;
+    }
+
+    throw notfoundJobPostingException.error();
+}
 
 exports.patchJobPosting = async (jobPosting) => {
     const updatedJobPosting = await JobPosting.update(

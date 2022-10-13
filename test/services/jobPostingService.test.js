@@ -1,7 +1,8 @@
 const {jobPostingService} = require('../../services');
 const {sequelize, Company, JobPosting} = require("../../models");
-const {setJobPostings} = require('./sample/jobPostingSample');
+const {getJobPostings} = require('./sample/jobPostingSample');
 const moment = require('moment');
+const {notfoundJobPostingException} = require("../../exceptions/jobPostingException");
 
 let company;
 
@@ -206,7 +207,7 @@ describe('patchJobPosting 테스트', () => {
             deadlineAt,
         }
 
-        await expect(jobPostingService.patchJobPosting(jobPostingInfo)).rejects.toThrow();
+        await expect(jobPostingService.patchJobPosting(jobPostingInfo)).rejects.toThrow(notfoundJobPostingException.error());
     })
 
 
@@ -316,7 +317,7 @@ describe('getJobPostings 테스트', () => {
 
     beforeAll(async () => {
         await sequelize.sync({force : true});
-        await setJobPostings();
+        await getJobPostings();
     })
 
     test('검색어를 입력하지 않을 시 모든 채용공고 목록 조회', async () => {
@@ -325,7 +326,7 @@ describe('getJobPostings 테스트', () => {
         }
 
         const jobPostings = await jobPostingService.getJobPostings(searchForm);
-        expect(jobPostings.length).toEqual(4);
+        expect(jobPostings.length).toEqual(5);
     })
 
     test('전체 범위를 초과한 페이지 번호로 채용공고 검색', async () => {
@@ -346,7 +347,7 @@ describe('getJobPostings 테스트', () => {
         }
 
         const jobPostings = await jobPostingService.getJobPostings(searchForm);
-        expect(jobPostings.length).toEqual(2);
+        expect(jobPostings.length).toEqual(3);
     })
 
     test('채용공고명에 포함된 단어로 채용공고 검색', async () => {
@@ -376,7 +377,7 @@ describe('getJobPostings 테스트', () => {
         }
 
         const jobPostings = await jobPostingService.getJobPostings(searchForm);
-        expect(jobPostings.length).toEqual(2);
+        expect(jobPostings.length).toEqual(3);
     })
 
     test('근무 지역 포함된 단어로 채용공고 검색', async () => {
@@ -409,3 +410,42 @@ describe('getJobPostings 테스트', () => {
         expect(jobPostings.length).toEqual(1);
     })
 })
+
+
+describe('getJobPosting 테스트',  () => {
+    let jobPostings;
+
+    beforeAll(async () => {
+        await sequelize.sync({force : true});
+        jobPostings = await getJobPostings();
+    })
+
+    test('존재하지 않는 id 로 채용 상세정보 조회시 에러 발생', async () => {
+        const jobPostingId = 99999999;
+
+        await expect(jobPostingService.getJobPosting(jobPostingId)).rejects.toThrow(notfoundJobPostingException.error());
+    })
+
+
+    test('id에 해당하는 채용 상세정보와 해당 회사의 다른 채용공고 조회', async () => {
+        const jobPosting = jobPostings[0];
+        const jobPostingId = jobPosting.id;
+        const companyId = jobPosting.companyId;
+
+        const findJobPosting = await jobPostingService.getJobPosting(jobPostingId);
+        expect(findJobPosting.id).toEqual(jobPosting.id);
+        expect(findJobPosting.title).toEqual(jobPosting.title);
+        expect(findJobPosting.description).toEqual(jobPosting.description);
+        expect(findJobPosting.country).toEqual(jobPosting.country);
+        expect(findJobPosting.region).toEqual(jobPosting.region);
+        expect(findJobPosting.position).toEqual(jobPosting.position);
+        expect(findJobPosting.requiredSkills).toEqual(jobPosting.requiredSkills);
+        expect(findJobPosting.deadlineAt).toEqual(jobPosting.deadlineAt);
+        expect(findJobPosting.company.name).toEqual(jobPosting.company.name);
+        expect(findJobPosting.relatedJobPostings.length).toEqual(2);
+        expect(findJobPosting.relatedJobPostings.filter(jp => jp.companyId === companyId).length)
+            .toEqual(2);
+        expect(findJobPosting.relatedJobPostings.filter(jp => jp.company.name === jobPosting.company.name).length)
+            .toEqual(2);
+    })
+});

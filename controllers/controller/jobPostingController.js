@@ -17,6 +17,13 @@ exports.getJobPostings = wrapAsync(async (req, res, next) => {
     return res.status(httpStatusCode.OK).json(jobPostings);
 });
 
+exports.getJobPosting = wrapAsync(async (req, res, next) => {
+    const jobPostingId = req.params.id;
+
+    const jobPosting = await jobPostingService.getJobPosting(jobPostingId);
+    return res.status(httpStatusCode.OK).json(jobPosting);
+});
+
 exports.patchJobPosting = wrapAsync(async (req, res, next) => {
     const jobPosting = req.body;
     jobPosting.id = req.params.id;
