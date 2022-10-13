@@ -101,3 +101,34 @@ describe('deleteJobPosting 테스트', () => {
     })
 
 });
+
+describe('getJobPostings 테스트', () => {
+    const req = {
+        query : {
+            search : '원티드'
+        }
+    };
+    const res = {
+        status: jest.fn(() => res),
+        json : jest.fn()
+    };
+    const next = jest.fn();
+
+    test('DB 에서 채용공고 조회중 에러 발생시 next(error) 호출', async () => {
+        const error = 'error!'
+        jobPostingService.getJobPostings.mockReturnValue(Promise.reject(error))
+
+        await jobPostingController.getJobPostings(req, res, next);
+        expect(next).toBeCalledWith(error);
+    })
+
+    test('채용공고 조회 성공 후 상태코드 200 과 채용공고 목록 반환', async () => {
+        const mockJobPostings = ['원티드', '애플'];
+
+        jobPostingService.getJobPostings.mockReturnValue(Promise.resolve(mockJobPostings));
+
+        await jobPostingController.getJobPostings(req, res, next);
+        expect(res.status).toBeCalledWith(httpStatusCode.OK);
+        expect(res.json).toBeCalledWith(mockJobPostings);
+    })
+});

@@ -7,5 +7,5 @@ exports.postResume = wrapAsync(async (req, res, next) => {
     resume.jobSeekerId = req.user.id;
 
     await resumeService.postResume(resume);
-    return res.status(httpStatusCode.OK);
+    return res.status(httpStatusCode.OK).json();
 });

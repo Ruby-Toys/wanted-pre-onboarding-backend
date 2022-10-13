@@ -1,26 +1,28 @@
 const {jobPostingService} = require('../../services');
 const {sequelize, Company, JobPosting} = require("../../models");
+const {setJobPostings} = require('./sample/jobPostingSample');
 const moment = require('moment');
 
 let company;
 
-beforeAll(async () => {
-    await sequelize.sync({force : true});
-    const companyInfo = {
-        "name" : "원티드",
-        "description" : "채용사이트 원티드",
-        "country" : "대한민국",
-        "region" : "서울",
-        "linkUrl" : "https://www.wanted.co.kr",
-        "employees" : 200,
-        "recruiterEmail" : "wanted@gamil.com",
-        "recruiterName" : "백승수",
-        "password" : "sadas",
-    }
-    company = await Company.create(companyInfo);
-});
-
 describe('postJobPosting 테스트', () => {
+
+    beforeAll(async () => {
+        await sequelize.sync({force : true});
+        const companyInfo = {
+            "name" : "원티드",
+            "description" : "채용사이트 원티드",
+            "country" : "대한민국",
+            "region" : "서울",
+            "linkUrl" : "https://www.wanted.co.kr",
+            "employees" : 200,
+            "recruiterEmail" : "wanted@gamil.com",
+            "recruiterName" : "백승수",
+            "password" : "sadas",
+        }
+        company = await Company.create(companyInfo);
+    });
+
 
     test('채용공고 제목 값이 누락된 경우 에러 발생', async () => {
         const now = new Date();
@@ -160,6 +162,20 @@ describe('patchJobPosting 테스트', () => {
     let jobPosting;
 
     beforeAll(async () => {
+        await sequelize.sync({force : true});
+        const companyInfo = {
+            "name" : "원티드",
+            "description" : "채용사이트 원티드",
+            "country" : "대한민국",
+            "region" : "서울",
+            "linkUrl" : "https://www.wanted.co.kr",
+            "employees" : 200,
+            "recruiterEmail" : "wanted@gamil.com",
+            "recruiterName" : "백승수",
+            "password" : "sadas",
+        }
+        company = await Company.create(companyInfo);
+
         const now = new Date();
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
         const jobPostingInfo = {
@@ -251,6 +267,20 @@ describe('deleteJobPosting 테스트', () => {
     let jobPosting;
 
     beforeAll(async () => {
+        await sequelize.sync({force : true});
+        const companyInfo = {
+            "name" : "원티드",
+            "description" : "채용사이트 원티드",
+            "country" : "대한민국",
+            "region" : "서울",
+            "linkUrl" : "https://www.wanted.co.kr",
+            "employees" : 200,
+            "recruiterEmail" : "wanted@gamil.com",
+            "recruiterName" : "백승수",
+            "password" : "sadas",
+        }
+        company = await Company.create(companyInfo);
+
         const now = new Date();
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
         const jobPostingInfo = {
@@ -278,5 +308,104 @@ describe('deleteJobPosting 테스트', () => {
 
         const result = await jobPostingService.deleteJobPosting(jobPostingId);
         expect(result).toEqual(1);
+    })
+})
+
+
+describe('getJobPostings 테스트', () => {
+
+    beforeAll(async () => {
+        await sequelize.sync({force : true});
+        await setJobPostings();
+    })
+
+    test('검색어를 입력하지 않을 시 모든 채용공고 목록 조회', async () => {
+        const searchForm = {
+            page : 1
+        }
+
+        const jobPostings = await jobPostingService.getJobPostings(searchForm);
+        expect(jobPostings.length).toEqual(4);
+    })
+
+    test('전체 범위를 초과한 페이지 번호로 채용공고 검색', async () => {
+        const searchForm = {
+            search : '원티드',
+            page : 2
+        }
+
+        const jobPostings = await jobPostingService.getJobPostings(searchForm);
+        expect(jobPostings.length).toEqual(0);
+    })
+
+
+    test('기업명에 포함된 단어로 채용공고 검색', async () => {
+        const searchForm = {
+            search : '원티드',
+            page : 1
+        }
+
+        const jobPostings = await jobPostingService.getJobPostings(searchForm);
+        expect(jobPostings.length).toEqual(2);
+    })
+
+    test('채용공고명에 포함된 단어로 채용공고 검색', async () => {
+        const searchForm = {
+            search : '사이트',
+            page : 1
+        }
+
+        const jobPostings = await jobPostingService.getJobPostings(searchForm);
+        expect(jobPostings.length).toEqual(2);
+    })
+
+    test('공고내용에 포함된 단어로 채용공고 검색', async () => {
+        const searchForm = {
+            search : '모집',
+            page : 1
+        }
+
+        const jobPostings = await jobPostingService.getJobPostings(searchForm);
+        expect(jobPostings.length).toEqual(2);
+    })
+
+    test('근무 국가에 포함된 단어로 채용공고 검색', async () => {
+        const searchForm = {
+            search : '대한',
+            page : 1
+        }
+
+        const jobPostings = await jobPostingService.getJobPostings(searchForm);
+        expect(jobPostings.length).toEqual(2);
+    })
+
+    test('근무 지역 포함된 단어로 채용공고 검색', async () => {
+        const searchForm = {
+            search : 'LA',
+            page : 1
+        }
+
+        const jobPostings = await jobPostingService.getJobPostings(searchForm);
+        expect(jobPostings.length).toEqual(1);
+    })
+
+    test('포지션 포함된 단어로 채용공고 검색', async () => {
+        const searchForm = {
+            search : '백엔드',
+            page : 1
+        }
+
+        const jobPostings = await jobPostingService.getJobPostings(searchForm);
+        expect(jobPostings.length).toEqual(3);
+    })
+
+    test('요구스킬 포함된 단어로 채용공고 검색', async () => {
+        const searchForm = {
+            search : 'UNIX',
+            page : 1
+        }
+
+        const jobPostings = await jobPostingService.getJobPostings(searchForm);
+        expect(jobPostings.length).toEqual(1);
     })
 })

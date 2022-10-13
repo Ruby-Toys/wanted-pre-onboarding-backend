@@ -7,7 +7,14 @@ exports.postJobPosting = wrapAsync(async (req, res, next) => {
     jobPosting.companyId = req.user.id;
 
     await jobPostingService.postJobPosting(jobPosting);
-    return res.status(httpStatusCode.OK);
+    return res.status(httpStatusCode.OK).json();
+});
+
+exports.getJobPostings = wrapAsync(async (req, res, next) => {
+    const searchForm = req.query;
+
+    const jobPostings = await jobPostingService.getJobPostings(searchForm);
+    return res.status(httpStatusCode.OK).json(jobPostings);
 });
 
 exports.patchJobPosting = wrapAsync(async (req, res, next) => {
@@ -15,12 +22,12 @@ exports.patchJobPosting = wrapAsync(async (req, res, next) => {
     jobPosting.id = req.params.id;
 
     await jobPostingService.patchJobPosting(jobPosting);
-    return res.status(httpStatusCode.OK);
+    return res.status(httpStatusCode.OK).json();
 });
 
 exports.deleteJobPosting = wrapAsync(async (req, res, next) => {
     const jobPostingId = req.params.id;
 
     await jobPostingService.deleteJobPosting(jobPostingId);
-    return res.status(httpStatusCode.OK);
+    return res.status(httpStatusCode.OK).json();
 });
