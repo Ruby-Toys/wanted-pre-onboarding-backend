@@ -29,7 +29,7 @@ describe('signUpJobSeeker 테스트',  () => {
             "phoneNumber": "01011112222",
         }
 
-        await expect(authService.signUpJobSeeker(jobSeeker)).rejects.toEqual(existsEmailException.error());
+        await expect(authService.signUpJobSeeker(jobSeeker)).rejects.toThrow();
     })
 
     test('회원가입시 이메일 값이 비어있을 경우 에러 발생', async () => {
@@ -40,7 +40,7 @@ describe('signUpJobSeeker 테스트',  () => {
             "careerPeriod" : 17
         }
 
-        await expect(authService.signUpJobSeeker(jobSeeker)).rejects.toThrow()
+        await expect(authService.signUpJobSeeker(jobSeeker)).rejects.toThrow();
     })
 
     test('회원가입시 비밀번호 값이 비어있을 경우 에러 발생',  async () => {
@@ -123,7 +123,7 @@ describe('signUpCompany 테스트', () => {
             "password" : "asdwqdsadasd",
         }
 
-        await expect(authService.signUpCompany(company)).rejects.toEqual(existsEmailException.error());
+        await expect(authService.signUpCompany(company)).rejects.toThrow();
     })
 
     test('회사 등록시 이름 값이 비어있을 경우 에러 발생', async () => {
