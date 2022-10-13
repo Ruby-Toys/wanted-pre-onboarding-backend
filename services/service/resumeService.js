@@ -1,7 +1,5 @@
-const {Resume, sequelize} = require("../../models");
+const {Resume} = require("../../models");
 
 exports.postResume = async (resume) => {
-    return sequelize.transaction({}, async (transaction) => {
-        return Resume.create(resume, {transaction});
-    });
+    return Resume.create(resume);
 }

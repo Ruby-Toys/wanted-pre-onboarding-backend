@@ -5,5 +5,6 @@ const {jobPostingController} = require("../../controllers");
 const router = express.Router();
 
 router.post('/', isCompanyLoggedIn, jobPostingController.postJobPosting);
+router.patch('/:id', isCompanyLoggedIn, jobPostingController.postJobPosting);
 
 module.exports = router;
