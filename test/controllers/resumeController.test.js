@@ -1,4 +1,4 @@
-const {resumeController, authController} = require('../../controllers');
+const {resumeController} = require('../../controllers');
 jest.mock("../../services")
 const {resumeService} = require("../../services");
 const {httpStatusCode} = require("../../routes/enums");
