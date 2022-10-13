@@ -1,6 +1,6 @@
 const {httpStatusCode} = require("../routes/enums");
 
-const existsEmailException = {
+exports.existsEmailException = {
     message : '해당 이메일로 등록된 사용자가 있습니다.',
     status : httpStatusCode.CONFLICT,
     error : () => {
@@ -8,8 +8,4 @@ const existsEmailException = {
         error.status = this.status;
         return error;
     },
-}
-
-module.exports = {
-    existsEmailException
 }

@@ -1,6 +1,6 @@
 const {httpStatusCode} = require("../routes/enums");
 
-const notFoundCompanyException = {
+exports.notFoundCompanyException = {
     message : '회사 정보를 찾을 수 없습니다.',
     status : httpStatusCode.NOT_FOUND,
     error : () => {
@@ -8,8 +8,4 @@ const notFoundCompanyException = {
         error.status = this.status;
         return error;
     },
-}
-
-module.exports = {
-    notFoundCompanyException
 }

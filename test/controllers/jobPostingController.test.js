@@ -71,4 +71,33 @@ describe('patchJobPosting 테스트', () => {
         expect(res.status).toBeCalledWith(httpStatusCode.OK);
     })
 
-})
+});
+
+
+describe('deleteJobPosting 테스트', () => {
+    const req = {
+        params : {
+            id : 1
+        }
+    };
+    const res = {
+        status: jest.fn(() => res),
+    };
+    const next = jest.fn();
+
+    test('DB 에 채용공고 삭제 처리 중 에러 발생시 next(error) 호출', async () => {
+        const error = 'error!'
+        jobPostingService.deleteJobPosting.mockReturnValue(Promise.reject(error))
+
+        await jobPostingController.deleteJobPosting(req, res, next);
+        expect(next).toBeCalledWith(error);
+    })
+
+    test('채용공고 삭제 성공 후 상태코드 200 반환', async () => {
+        jobPostingService.deleteJobPosting.mockReturnValue(Promise.resolve(true));
+
+        await jobPostingController.deleteJobPosting(req, res, next);
+        expect(res.status).toBeCalledWith(httpStatusCode.OK);
+    })
+
+});

@@ -1,5 +1,5 @@
 const {JobPosting} = require("../../models");
-const {isFailUpdate} = require("../queryUtils");
+const {isFailUpdate, isFailDelete} = require("../queryUtils");
 const {notfoundJobPostingException} = require("../../exceptions/jobPostingException");
 
 exports.postJobPosting = async (jobPosting) => {
@@ -15,4 +15,12 @@ exports.patchJobPosting = async (jobPosting) => {
     if (isFailUpdate(updatedJobPosting)) throw notfoundJobPostingException.error();
 
     return updatedJobPosting;
+}
+
+exports.deleteJobPosting = async (jobPostingId) => {
+    const result = await JobPosting.destroy({where: {id : jobPostingId}});
+
+    if (isFailDelete(result)) throw notfoundJobPostingException.error();
+
+    return result;
 }

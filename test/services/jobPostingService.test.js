@@ -245,3 +245,38 @@ describe('patchJobPosting 테스트', () => {
         expect(updatedJobPosting.deadlineAt).toEqual(moment(jobPostingInfo.deadlineAt).format("YYYY-MM-DD"));
     })
 });
+
+describe('deleteJobPosting 테스트', () => {
+
+    let jobPosting;
+
+    beforeAll(async () => {
+        const now = new Date();
+        const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
+        const jobPostingInfo = {
+            title: '엔드포인트 보안에이전트 개발',
+            description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+            country: '대한민국',
+            region: '서울',
+            position: '개발,백엔드',
+            requiredSkills: '자바, 스프링',
+            deadlineAt,
+            companyId: company.id
+        }
+
+        jobPosting = await JobPosting.create(jobPostingInfo);
+    })
+
+    test('존재하지 않는 채용공고 삭제', async () => {
+        const jobPostingId = jobPosting.id + 99;
+
+        await expect(jobPostingService.deleteJobPosting(jobPostingId)).rejects.toThrow();
+    })
+
+    test('채용공고 삭제', async () => {
+        const jobPostingId = jobPosting.id;
+
+        const result = await jobPostingService.deleteJobPosting(jobPostingId);
+        expect(result).toEqual(1);
+    })
+})

@@ -1,6 +1,6 @@
 const {httpStatusCode} = require("../routes/enums");
 
-const notfoundJobPostingException = {
+exports.notfoundJobPostingException = {
     message : '채용공고 정보를 찾을 수 없습니다.',
     status : httpStatusCode.NOT_FOUND,
     error : () => {
@@ -8,8 +8,4 @@ const notfoundJobPostingException = {
         error.status = this.status;
         return error;
     },
-}
-
-module.exports = {
-    notfoundJobPostingException
 }

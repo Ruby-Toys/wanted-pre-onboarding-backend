@@ -17,3 +17,10 @@ exports.patchJobPosting = wrapAsync(async (req, res, next) => {
     await jobPostingService.patchJobPosting(jobPosting);
     return res.status(httpStatusCode.OK);
 });
+
+exports.deleteJobPosting = wrapAsync(async (req, res, next) => {
+    const jobPostingId = req.params.id;
+
+    await jobPostingService.deleteJobPosting(jobPostingId);
+    return res.status(httpStatusCode.OK);
+});
