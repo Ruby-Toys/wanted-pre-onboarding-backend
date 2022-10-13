@@ -60,7 +60,7 @@ describe('postResume 테스트', () => {
             jobSeekerId: jobSeeker.id + 99
         }
 
-        await expect(resumeService.postResume(resume)).rejects.toEqual(notFoundJobSeekerException.error());
+        await expect(resumeService.postResume(resume)).rejects.toThrow();
     })
 
     test('이력서 등록 성공', async () => {

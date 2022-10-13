@@ -132,7 +132,7 @@ describe('postJobPosting 테스트', () => {
             companyId: company.id + 99
         }
 
-        await expect(jobPostingService.postJobPosting(jobPosting)).rejects.toEqual(notFoundCompanyException.error());
+        await expect(jobPostingService.postJobPosting(jobPosting)).rejects.toThrow();
     })
 
     test('채용공고 등록 성공', async () => {
