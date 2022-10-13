@@ -4,7 +4,7 @@ const passport = require("passport");
 const {httpStatusCode} = require("../../routes/enums");
 const {userType} = require("../../models/enums");
 
-exports.signUpJobSeeker = wrapAsync(async (req, res) => {
+exports.signUpJobSeeker = wrapAsync(async (req, res, next) => {
     const jobSeeker = req.body;
     const signedJobSeeker = await authService.signUpJobSeeker(jobSeeker);
     const jobSeekerInfo = {
@@ -41,7 +41,7 @@ exports.loginJobSeeker = (req, res, next) => {
     ) (req, res, next);
 };
 
-exports.signUpCompany = wrapAsync(async (req, res) => {
+exports.signUpCompany = wrapAsync(async (req, res, next) => {
     const company = req.body;
     const signedCompany = await authService.signUpCompany(company);
     const companyInfo = {

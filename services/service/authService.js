@@ -7,8 +7,8 @@ exports.signUpJobSeeker = async (jobSeeker) => {
         const existsJobSeeker = await JobSeeker.findOne(
             {
                 where : {email : jobSeeker.email},
-                transaction
-            }
+            },
+            {transaction}
         );
 
         if (existsJobSeeker) throw existsEmailException.error();
@@ -25,10 +25,8 @@ exports.signUpCompany = async (company) => {
 
     return sequelize.transaction({}, async (transaction) => {
         const existsCompany = await Company.findOne(
-            {
-                where : {recruiterEmail : company.recruiterEmail},
-                transaction
-            }
+            {where : {recruiterEmail : company.recruiterEmail}},
+            {transaction}
         );
 
         if (existsCompany) throw existsEmailException.error();

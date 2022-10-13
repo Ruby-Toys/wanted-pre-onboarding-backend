@@ -1,10 +1,15 @@
-const {Resume, JobSeeker} = require("../../models");
+const {Resume, JobSeeker, sequelize} = require("../../models");
 const {notFoundJobSeekerException} = require("../../exceptions/jobSeekerException");
 
 exports.postResume = async (resume) => {
-    const findJobSeeker = await JobSeeker.findOne({where: {id: resume.jobSeekerId}});
+    return sequelize.transaction({}, async (transaction) => {
+        const findJobSeeker = await JobSeeker.findOne(
+            {where: {id: resume.jobSeekerId}},
+            {transaction}
+        );
 
-    if (findJobSeeker) return Resume.create(resume);
+        if (findJobSeeker) return Resume.create(resume, {transaction});
 
-    throw notFoundJobSeekerException.error();
+        throw notFoundJobSeekerException.error();
+    });
 }

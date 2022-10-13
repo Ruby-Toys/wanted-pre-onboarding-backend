@@ -18,10 +18,6 @@ beforeAll(async () => {
 
 describe('postResume 테스트', () => {
 
-    beforeEach(async () => {
-        await Resume.destroy({truncate: true})
-    })
-
     test('자기소개 값이 누락된 경우 에러 발생', async () => {
         const resume = {
             career: '엠브이소프텍 1년 7개월 근무',
