@@ -1,6 +1,6 @@
 const wrapAsync = require("../wrapAsync");
+const wrapAuthenticate = require("../wrapAuthenticate");
 const {authService} = require("../../services");
-const passport = require("passport");
 const {httpStatusCode} = require("../../routes/enums");
 const {userType} = require("../../models/enums");
 
@@ -15,31 +15,8 @@ exports.signUpJobSeeker = wrapAsync(async (req, res, next) => {
 });
 
 exports.loginJobSeeker = (req, res, next) => {
-    passport.authenticate(userType.JOB_SEEKER, {}, (authError, jobSeeker, info) => {
-            if (authError) {
-                console.error(authError);
-                return next(authError);
-            }
-            if (!jobSeeker) {
-                return res.status(httpStatusCode.UNAUTHORIZED).json({message: "인증이 필요합니다."});
-            }
-
-            // 여기에서 passport/index 에 작성한 부분으로 넘어감
-            const userInfo = {
-                id: jobSeeker.id,
-                type: userType.JOB_SEEKER
-            }
-
-            return req.login(userInfo, loginError => {
-                if (loginError) {
-                    console.error(loginError);
-                    return next(loginError);
-                }
-                return res.status(httpStatusCode.OK).json();
-            });
-        }
-    ) (req, res, next);
-};
+    wrapAuthenticate(req, res, next, userType.JOB_SEEKER);
+}
 
 exports.signUpCompany = wrapAsync(async (req, res, next) => {
     const company = req.body;
@@ -53,30 +30,8 @@ exports.signUpCompany = wrapAsync(async (req, res, next) => {
 });
 
 exports.loginCompany = (req, res, next) => {
-    passport.authenticate(userType.COMPANY, {}, (authError, company, info) => {
-            if (authError) {
-                console.error(authError);
-                return next(authError);
-            }
-            if (!company) {
-                return res.status(httpStatusCode.UNAUTHORIZED).json({message: info.message});
-            }
-
-            const userInfo = {
-                id: company.id,
-                type: userType.COMPANY
-            }
-
-            return req.login(userInfo, loginError => {
-                if (loginError) {
-                    console.error(loginError);
-                    return next(loginError);
-                }
-                return res.status(httpStatusCode.OK).json();
-            });
-        }
-    ) (req, res, next);
-};
+    wrapAuthenticate(req, res, next, userType.COMPANY);
+}
 
 exports.logout = (req, res, next) => {
     req.logout(err => {

@@ -15,13 +15,13 @@ module.exports = () => {
         if (userType.JOB_SEEKER === type) {
             console.log("구직자 로그인 인증!");
             JobSeeker.findOne({where: {id}})
-                .then(JobSeeker => done(null, JobSeeker))
+                .then(done(null, userInfo))
                 .catch(err => done(err));
         }
         else if (userType.COMPANY === type) {
             console.log("회사 로그인 인증!");
             Company.findOne({where: {id}})
-                .then(Company => done(null, Company))
+                .then(done(null, userInfo))
                 .catch(err => done(err));
         }
     })
