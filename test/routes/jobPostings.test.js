@@ -4,6 +4,7 @@ const {httpStatusCode} = require("../../routes/enums");
 const {sequelize, Company} = require("../../models");
 const bcrypt = require("bcrypt");
 const {jobPostingService} = require("../../services");
+const {getJobPostings} = require("../services/sample/jobPostingSample");
 
 beforeAll(async () => {
     await sequelize.sync({force : true});
@@ -262,7 +263,7 @@ describe('DELETE /jobPostings/:id', () => {
 
     test('존재하지 않는 채용공고 삭제 요청시 404 NOT FOUND 응답', done => {
         agent
-            .patch(`/jobPostings/${existsJobPosting.id + 99}`)
+            .delete(`/jobPostings/${existsJobPosting.id + 99}`)
             .expect(httpStatusCode.NOT_FOUND, done);
     })
 
@@ -270,5 +271,21 @@ describe('DELETE /jobPostings/:id', () => {
         agent
             .delete(`/jobPostings/${existsJobPosting.id}`)
             .expect(httpStatusCode.OK, done);
+    })
+})
+
+describe('GET /jobPostings', () => {
+
+    beforeAll( async () => {
+        await sequelize.sync({force : true});
+        await getJobPostings();
+    })
+
+    test('검색어로 채용공고 검색',  async () => {
+        const result = await request(app)
+            .get(`/jobPostings?search=${encodeURIComponent('자바')}`)
+            .expect(httpStatusCode.OK);
+
+        expect(result.body.length).toEqual(2);
     })
 })
