@@ -29,7 +29,7 @@ describe('postJobPosting 테스트', () => {
         const now = new Date();
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
         const jobPosting = {
-            description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+            description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
             country: '대한민국',
             region: '서울',
             position: '개발,백엔드',
@@ -45,7 +45,7 @@ describe('postJobPosting 테스트', () => {
         const now = new Date();
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
         const jobPosting = {
-            title: '엔드포인트 보안에이전트 개발',
+            title: '원티드 사이트 개발 및 유지보수',
             country: '대한민국',
             region: '서울',
             position: '개발,백엔드',
@@ -61,8 +61,8 @@ describe('postJobPosting 테스트', () => {
         const now = new Date();
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
         const jobPosting = {
-            title: '엔드포인트 보안에이전트 개발',
-            description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+            title: '원티드 사이트 개발 및 유지보수',
+            description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
             region: '서울',
             position: '개발,백엔드',
             requiredSkills: '자바, 스프링',
@@ -77,8 +77,8 @@ describe('postJobPosting 테스트', () => {
         const now = new Date();
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
         const jobPosting = {
-            title: '엔드포인트 보안에이전트 개발',
-            description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+            title: '원티드 사이트 개발 및 유지보수',
+            description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
             country: '대한민국',
             position: '개발,백엔드',
             requiredSkills: '자바, 스프링',
@@ -93,8 +93,8 @@ describe('postJobPosting 테스트', () => {
         const now = new Date();
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
         const jobPosting = {
-            title: '엔드포인트 보안에이전트 개발',
-            description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+            title: '원티드 사이트 개발 및 유지보수',
+            description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
             country: '대한민국',
             region: '서울',
             requiredSkills: '자바, 스프링',
@@ -109,8 +109,8 @@ describe('postJobPosting 테스트', () => {
         const now = new Date();
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
         const jobPosting = {
-            title: '엔드포인트 보안에이전트 개발',
-            description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+            title: '원티드 사이트 개발 및 유지보수',
+            description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
             country: '대한민국',
             region: '서울',
             position: '개발,백엔드',
@@ -125,8 +125,8 @@ describe('postJobPosting 테스트', () => {
         const now = new Date();
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
         const jobPosting = {
-            title: '엔드포인트 보안에이전트 개발',
-            description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+            title: '원티드 사이트 개발 및 유지보수',
+            description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
             country: '대한민국',
             region: '서울',
             position: '개발,백엔드',
@@ -142,8 +142,8 @@ describe('postJobPosting 테스트', () => {
         const now = new Date();
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
         const jobPosting = {
-            title: '엔드포인트 보안에이전트 개발',
-            description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+            title: '원티드 사이트 개발 및 유지보수',
+            description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
             country: '대한민국',
             region: '서울',
             position: '개발,백엔드',
@@ -180,8 +180,8 @@ describe('patchJobPosting 테스트', () => {
         const now = new Date();
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
         const jobPostingInfo = {
-            title: '엔드포인트 보안에이전트 개발',
-            description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+            title: '원티드 사이트 개발',
+            description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
             country: '대한민국',
             region: '서울',
             position: '개발,백엔드',
@@ -198,8 +198,8 @@ describe('patchJobPosting 테스트', () => {
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 2));
         const jobPostingInfo = {
             id: jobPosting.id + 99,
-            title: '엔드포인트 보안요원 개발',
-            description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 사업을 하고 있습니다.',
+            title: '원티드 사이트 개발 및 유지보수',
+            description: '원티드 개발자를 모집합니다.',
             country: '대한민국',
             region: '인천',
             position: '개발,백엔드,웹개발',
@@ -216,7 +216,7 @@ describe('patchJobPosting 테스트', () => {
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 2));
         const jobPostingInfo = {
             id: jobPosting.id,
-            title: '엔드포인트 보안요원 개발',
+            title: '원티드 사이트 개발 및 유지보수',
             position: '개발,백엔드,웹개발',
             requiredSkills: '자바, 스프링',
             deadlineAt,
@@ -240,8 +240,8 @@ describe('patchJobPosting 테스트', () => {
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 2));
         const jobPostingInfo = {
             id: jobPosting.id,
-            title: '엔드포인트 보안요원 개발',
-            description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 사업을 하고 있습니다.',
+            title: '원티드 사이트 개발 및 유지보수',
+            description: '원티드 개발자를 모집합니다.',
             country: '대한민국',
             region: '인천',
             position: '개발,백엔드,웹개발',
@@ -285,8 +285,8 @@ describe('deleteJobPosting 테스트', () => {
         const now = new Date();
         const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
         const jobPostingInfo = {
-            title: '엔드포인트 보안에이전트 개발',
-            description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+            title: '원티드 사이트 개발 및 유지보수',
+            description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
             country: '대한민국',
             region: '서울',
             position: '개발,백엔드',

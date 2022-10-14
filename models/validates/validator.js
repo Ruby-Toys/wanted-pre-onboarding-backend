@@ -34,7 +34,9 @@ exports.dateValidator = (columnName) => {
         isDate: {
             msg: columnName + ' 값이 형식에 맞지 않습니다.'
         },
-        isAfter: getToday(),
+        customValidator : (value) => {
+            if (value <= getToday()) throw new Error(columnName + ' 값은 오늘 이후 날짜이어야 합니다.');
+        }
     }
 }
 

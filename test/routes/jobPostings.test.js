@@ -3,6 +3,7 @@ const app = require("../../app");
 const {httpStatusCode} = require("../../routes/enums");
 const {sequelize, Company} = require("../../models");
 const bcrypt = require("bcrypt");
+const {jobPostingService} = require("../../services");
 
 beforeAll(async () => {
     await sequelize.sync({force : true});
@@ -31,8 +32,7 @@ describe('POST /jobPostings 로그인 하지 않은 상태', () => {
         request(app)
             .post('/jobPostings')
             .send({
-                title: '엔드포인트 보안에이전트 개발',
-                description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+                description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
                 country: '대한민국',
                 region: '서울',
                 position: '개발,백엔드',
@@ -63,8 +63,8 @@ describe('POST /jobPostings', () => {
         agent
             .post('/jobPostings')
             .send({
-                title: '엔드포인트 보안에이전트 개발',
-                description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+                title: '원티드 사이트 개발 및 유지보수',
+                description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
                 country: '대한민국',
                 region: '서울',
                 position: '개발,백엔드',
@@ -81,11 +81,130 @@ describe('POST /jobPostings', () => {
         agent
             .post('/jobPostings')
             .send({
-                title: '엔드포인트 보안에이전트 개발',
-                description: '소만사는 서울 영등포구 영신로에 위치하고 있으며, 개인정보보호 제품 개발 및 정보보호 컨설팅 사업을 하고 있습니다.',
+                title: '원티드 사이트 개발 및 유지보수',
+                description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
                 country: '대한민국',
                 region: '서울',
                 position: '개발,백엔드',
+                requiredSkills: '자바, 스프링',
+                deadlineAt,
+            })
+            .expect(httpStatusCode.OK, done);
+    })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+describe('PATCH /jobPostings/:id 로그인 하지 않은 상태', () => {
+
+    let existsJobPosting;
+
+    beforeAll( async () => {
+        const now = new Date();
+        const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
+        const jobPosting = {
+            title: '원티드 사이트 개발 및 유지보수',
+            description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
+            country: '대한민국',
+            region: '서울',
+            position: '개발,백엔드',
+            requiredSkills: '자바, 스프링',
+            deadlineAt,
+        }
+
+        existsJobPosting = await jobPostingService.postJobPosting(jobPosting);
+    })
+
+    test('로그인 하지 않은 상태에서 채용공고 수정시 403 FORBIDDEN 응답', done => {
+        const now = new Date();
+        const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
+
+        request(app)
+            .patch(`/jobPostings/${existsJobPosting.id}`)
+            .send({
+                title: '원티드 사이트 개발 및 유지보수',
+                description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
+                country: '대한민국',
+                region: '서울',
+                position: '개발,백엔드',
+                requiredSkills: '자바, 스프링',
+                deadlineAt,
+            })
+            .expect(httpStatusCode.FORBIDDEN, done);
+    })
+})
+
+describe('PATCH /jobPostings/:id', () => {
+
+    let existsJobPosting;
+
+    beforeAll( async () => {
+        const now = new Date();
+        const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
+        const jobPosting = {
+            title: '원티드 사이트 개발',
+            description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
+            country: '대한민국',
+            region: '서울',
+            position: '개발,백엔드',
+            requiredSkills: '자바, 스프링',
+            deadlineAt,
+        }
+
+        existsJobPosting = await jobPostingService.postJobPosting(jobPosting);
+    })
+
+    const agent = request.agent(app);
+    beforeEach(done => {
+        agent
+            .post('/auth/login/company')
+            .send({
+                "recruiterEmail" : "wanted@gamil.com",
+                "password" : "sadas",
+            })
+            .end(done);
+    })
+
+    test('채용공고 종료일이 오늘 이전일 경우 400 BAD REQUEST 응답', done => {
+        const now = new Date();
+        const deadlineAt = new Date(now.setDate(now.getDate() -1));
+
+        agent
+            .patch(`/jobPostings/${existsJobPosting.id}`)
+            .send({
+                title: '원티드 사이트 개발 및 유지보수',
+                description: '원티드 개발자를 모집합니다.',
+                country: '대한민국',
+                region: '인천',
+                position: '개발,백엔드,웹개발',
+                requiredSkills: '자바, 스프링',
+                deadlineAt,
+            })
+            .expect(httpStatusCode.BAD_REQUEST, done);
+    })
+
+    test('채용공고 수정 성공', done => {
+        const now = new Date();
+        const deadlineAt = new Date(now.setDate(now.getDate() + 20));
+
+        agent
+            .patch(`/jobPostings/${existsJobPosting.id}`)
+            .send({
+                title: '원티드 사이트 개발 및 유지보수',
+                description: '원티드 개발자를 모집합니다.',
+                country: '대한민국',
+                region: '인천',
+                position: '개발,백엔드,웹개발',
                 requiredSkills: '자바, 스프링',
                 deadlineAt,
             })
