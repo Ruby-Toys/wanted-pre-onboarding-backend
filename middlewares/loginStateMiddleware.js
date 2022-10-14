@@ -1,5 +1,5 @@
 const {userType} = require("../models/enums");
-const {httpStatusCode} = require("../routes/enums");
+const httpStatusCode = require("../routes/enums/httpStatusCode");
 const isJobSeekerType = (req) => {
     return req.isAuthenticated() && req.user.type === userType.JOB_SEEKER;
 }

@@ -1,6 +1,6 @@
 const wrapAsync = require("../wrapAsync");
 const {applicationService} = require("../../services");
-const {httpStatusCode} = require("../../routes/enums");
+const httpStatusCode = require("../../routes/enums/httpStatusCode");
 
 exports.postApplication = wrapAsync(async (req, res, next) => {
     const application = {

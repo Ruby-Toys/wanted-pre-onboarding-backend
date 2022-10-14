@@ -1,4 +1,4 @@
-const {httpStatusCode} = require("../routes/enums");
+const httpStatusCode = require("../routes/enums/httpStatusCode");
 const wrapException = require("./wrapException");
 
 const message = '채용공고 정보를 찾을 수 없습니다.';

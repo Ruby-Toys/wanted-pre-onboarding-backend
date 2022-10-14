@@ -1,7 +1,7 @@
 const {resumeController} = require('../../controllers');
 jest.mock("../../services")
 const {resumeService} = require("../../services");
-const {httpStatusCode} = require("../../routes/enums");
+const httpStatusCode = require("../../routes/enums/httpStatusCode");
 
 describe('postResume 테스트', () => {
     const req = {

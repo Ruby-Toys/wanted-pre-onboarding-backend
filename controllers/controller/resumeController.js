@@ -1,6 +1,6 @@
 const wrapAsync = require("../wrapAsync");
 const {resumeService} = require("../../services");
-const {httpStatusCode} = require("../../routes/enums");
+const httpStatusCode = require("../../routes/enums/httpStatusCode");
 
 exports.postResume = wrapAsync(async (req, res, next) => {
     const resume = req.body;

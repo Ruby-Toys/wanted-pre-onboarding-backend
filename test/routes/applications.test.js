@@ -1,12 +1,9 @@
 const request = require("supertest");
 const app = require("../../app");
-const {httpStatusCode} = require("../../routes/enums");
+const httpStatusCode = require("../../routes/enums/httpStatusCode");
 const {sequelize, Company, JobSeeker, Resume, JobPosting, Application} = require("../../models");
 const bcrypt = require("bcrypt");
 const {applicationState} = require("../../models/enums");
-
-
-
 
 describe('POST /applications 로그인 하지 않은 상태', () => {
 

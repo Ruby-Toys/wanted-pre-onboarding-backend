@@ -4,15 +4,6 @@ const getToday = () => {
     const month = date.getMonth() + 1;
     const day = date.getDate();
 
-    // if (month < 10){
-    //     month = "0" + month;
-    // }
-    //
-    // var day = date.getDate();
-    // if (day <= 9){
-    //     day = "0" + month;
-    // }
-
     return year
         + '-' + (month < 10 ? '0' + month : month)
         + '-' + (day < 10 ? '0' + day : day)

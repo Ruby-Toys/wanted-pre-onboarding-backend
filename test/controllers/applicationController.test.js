@@ -1,7 +1,7 @@
 const {applicationController} = require('../../controllers');
 jest.mock("../../services")
 const {applicationService} = require("../../services");
-const {httpStatusCode} = require("../../routes/enums");
+const httpStatusCode = require("../../routes/enums/httpStatusCode");
 
 describe('postApplication 테스트', () => {
     const req = {

@@ -1,7 +1,7 @@
 const {sequelize, JobSeeker, Company} = require('../../models');
 const app = require('../../app');
 const request = require("supertest");
-const {httpStatusCode} = require("../../routes/enums");
+const httpStatusCode = require("../../routes/enums/httpStatusCode");
 const bcrypt = require("bcrypt");
 
 beforeAll(async () => {

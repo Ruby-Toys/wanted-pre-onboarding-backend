@@ -1,6 +1,6 @@
 const request = require("supertest");
 const app = require("../../app");
-const {httpStatusCode} = require("../../routes/enums");
+const httpStatusCode = require("../../routes/enums/httpStatusCode");
 const {sequelize, JobSeeker} = require("../../models");
 const bcrypt = require("bcrypt");
 

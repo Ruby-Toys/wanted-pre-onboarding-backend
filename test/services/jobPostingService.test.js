@@ -447,5 +447,7 @@ describe('getJobPosting 테스트',  () => {
             .toEqual(2);
         expect(findJobPosting.relatedJobPostings.filter(jp => jp.company.name === jobPosting.company.name).length)
             .toEqual(2);
+
+        console.log(findJobPosting.relatedJobPostings)
     })
 });

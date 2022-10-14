@@ -1,5 +1,5 @@
 const passport = require("passport");
-const {httpStatusCode} = require("../routes/enums");
+const httpStatusCode = require("../routes/enums/httpStatusCode");
 
 module.exports = (req, res, next, userType) => {
     passport.authenticate(userType, {}, (authError, user, info) => {

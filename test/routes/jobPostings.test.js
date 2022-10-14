@@ -1,6 +1,6 @@
 const request = require("supertest");
 const app = require("../../app");
-const {httpStatusCode} = require("../../routes/enums");
+const httpStatusCode = require("../../routes/enums/httpStatusCode");
 const {sequelize, Company} = require("../../models");
 const bcrypt = require("bcrypt");
 const {jobPostingService} = require("../../services");
@@ -295,19 +295,6 @@ describe('GET /jobPostings/:id', () => {
     let jobPostings;
 
     beforeAll( async () => {
-        // const now = new Date();
-        // const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
-        // const jobPosting = {
-        //     title: '원티드 사이트 개발',
-        //     description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
-        //     country: '대한민국',
-        //     region: '서울',
-        //     position: '개발,백엔드',
-        //     requiredSkills: '자바, 스프링',
-        //     deadlineAt,
-        // }
-        //
-        // existsJobPosting = await jobPostingService.postJobPosting(jobPosting);
         await sequelize.sync({force : true});
         jobPostings = await getJobPostings();
     })

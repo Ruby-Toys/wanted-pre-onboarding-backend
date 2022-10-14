@@ -1,7 +1,7 @@
 const wrapAsync = require("../wrapAsync");
 const wrapAuthenticate = require("../wrapAuthenticate");
 const {authService} = require("../../services");
-const {httpStatusCode} = require("../../routes/enums");
+const httpStatusCode = require("../../routes/enums/httpStatusCode");
 const {userType} = require("../../models/enums");
 
 exports.signUpJobSeeker = wrapAsync(async (req, res, next) => {

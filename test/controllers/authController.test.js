@@ -1,7 +1,7 @@
 const {authController} = require('../../controllers');
 jest.mock("../../services")
 const {authService} = require("../../services");
-const {httpStatusCode} = require("../../routes/enums");
+const httpStatusCode = require("../../routes/enums/httpStatusCode");
 
 describe('signUpJobSeeker 테스트', () => {
     const req = {}

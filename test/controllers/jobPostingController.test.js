@@ -1,7 +1,7 @@
 const {jobPostingController} = require('../../controllers');
 jest.mock("../../services")
 const {jobPostingService} = require("../../services");
-const {httpStatusCode} = require("../../routes/enums");
+const httpStatusCode = require("../../routes/enums/httpStatusCode");
 
 describe('postJobPosting 테스트', () => {
     const now = new Date();

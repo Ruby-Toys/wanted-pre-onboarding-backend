@@ -1,6 +1,6 @@
 const wrapAsync = require("../wrapAsync");
 const {jobPostingService} = require("../../services");
-const {httpStatusCode} = require("../../routes/enums");
+const httpStatusCode = require("../../routes/enums/httpStatusCode");
 
 exports.postJobPosting = wrapAsync(async (req, res, next) => {
     const jobPosting = req.body;
