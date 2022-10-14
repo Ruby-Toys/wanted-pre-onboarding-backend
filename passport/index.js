@@ -1,6 +1,7 @@
 const passport = require('passport');
 const jobSeekerStrategy = require('./strategy/jobSeekerStrategy');
-const {JobSeeker} = require("../models");
+const companyStrategy = require('./strategy/companyStrategy');
+const {JobSeeker, Company} = require("../models");
 const {userType} = require('../models/enums');
 
 module.exports = () => {
@@ -17,7 +18,14 @@ module.exports = () => {
                 .then(JobSeeker => done(null, JobSeeker))
                 .catch(err => done(err));
         }
+        else if (userType.COMPANY === type) {
+            console.log("회사 로그인 인증!");
+            Company.findOne({where: {id}})
+                .then(Company => done(null, Company))
+                .catch(err => done(err));
+        }
     })
 
     jobSeekerStrategy();
+    companyStrategy();
 }

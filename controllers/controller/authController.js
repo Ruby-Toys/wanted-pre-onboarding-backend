@@ -21,7 +21,7 @@ exports.loginJobSeeker = (req, res, next) => {
                 return next(authError);
             }
             if (!jobSeeker) {
-                return res.status(httpStatusCode.UNAUTHORIZED).json({message: info.message});
+                return res.status(httpStatusCode.UNAUTHORIZED).json({message: "인증이 필요합니다."});
             }
 
             // 여기에서 passport/index 에 작성한 부분으로 넘어감
@@ -78,8 +78,11 @@ exports.loginCompany = (req, res, next) => {
     ) (req, res, next);
 };
 
-exports.logout = (req, res) => {
-    req.logout();
-    req.session.destroy();
-    res.status(httpStatusCode.OK).json();
+exports.logout = (req, res, next) => {
+    req.logout(err => {
+        if (err) return next(err);
+
+        req.session.destroy();
+        res.status(httpStatusCode.OK).json("로그아웃 되었습니다.");
+    });
 };

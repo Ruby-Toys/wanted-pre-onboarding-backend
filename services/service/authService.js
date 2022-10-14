@@ -14,6 +14,9 @@ exports.signUpJobSeeker = async (jobSeeker) => {
 }
 
 exports.signUpCompany = async (company) => {
+    const exists = await Company.findOne({where: {recruiterEmail : company.recruiterEmail}});
+    if (exists) throw existsEmailException();
+
     const hashPassword = await bcrypt.hash(company.password, 12);
     return Company.create({
         ...company,

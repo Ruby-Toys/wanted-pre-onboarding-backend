@@ -9,12 +9,12 @@ module.exports = () => {
         userType.COMPANY,
         new LocalStrategy(
             {
-                usernameField: 'email',
+                usernameField: 'recruiterEmail',
                 passwordField: 'password'
             },
-            async (email, password, done) => {
+            async (recruiterEmail, password, done) => {
                 try {
-                    const exCompany = await Company.findOne({where: {email}});
+                    const exCompany = await Company.findOne({where: {recruiterEmail}});
                     if (exCompany) {
                         const result = await bcrypt.compare(password, exCompany.password);
                         if (result) {
@@ -22,7 +22,7 @@ module.exports = () => {
                             return;
                         }
                     }
-                    done(null, false, {message : '아이디 또는 비밀번호가 일치하지 않습니다.'});
+                    done(null, false, {message : '이메일 또는 비밀번호가 일치하지 않습니다.'});
                 } catch (err) {
                     console.error(err);
                     done(err);
