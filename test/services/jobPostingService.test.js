@@ -207,7 +207,7 @@ describe('patchJobPosting 테스트', () => {
             deadlineAt,
         }
 
-        await expect(jobPostingService.patchJobPosting(jobPostingInfo)).rejects.toThrow(notfoundJobPostingException.error());
+        await expect(jobPostingService.patchJobPosting(jobPostingInfo)).rejects.toThrow(notfoundJobPostingException());
     })
 
 
@@ -423,7 +423,7 @@ describe('getJobPosting 테스트',  () => {
     test('존재하지 않는 id 로 채용 상세정보 조회시 에러 발생', async () => {
         const jobPostingId = 99999999;
 
-        await expect(jobPostingService.getJobPosting(jobPostingId)).rejects.toThrow(notfoundJobPostingException.error());
+        await expect(jobPostingService.getJobPosting(jobPostingId)).rejects.toThrow(notfoundJobPostingException());
     })
 
 

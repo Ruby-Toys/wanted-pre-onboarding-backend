@@ -1,10 +1,10 @@
-const {Application, sequelize, Company, JobSeeker, Resume} = require("../../models");
+const {Application, sequelize, Resume} = require("../../models");
 const {applicationState} = require("../../models/enums");
 const {existsApplicationException} = require("../../exceptions/ApplicationException");
 
 exports.postApplication = async (application) => {
     return sequelize.transaction({}, async (transaction) => {
-        const existsApplication = await Application.findOne({
+        const exists = await Application.findOne({
             include: [
                 {
                     model: Resume,
@@ -14,7 +14,7 @@ exports.postApplication = async (application) => {
             where: {jobPostingId : application.jobPostingId}
         }, {transaction});
 
-        if (existsApplication) throw existsApplicationException.error();
+        if (exists) throw existsApplicationException();
 
         return Application.create({
             resumeId : application.resumeId,

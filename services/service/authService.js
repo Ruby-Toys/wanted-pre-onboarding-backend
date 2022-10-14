@@ -1,12 +1,16 @@
 const {JobSeeker, Company} = require("../../models");
 const bcrypt = require("bcrypt");
+const {existsEmailException} = require("../../exceptions/commonException");
 
 exports.signUpJobSeeker = async (jobSeeker) => {
+    const exists = await JobSeeker.findOne({where: {email : jobSeeker.email}});
+    if (exists) throw existsEmailException();
+
     const hashPassword = await bcrypt.hash(jobSeeker.password, 12);
-    return JobSeeker.create({
+    return await JobSeeker.create({
         ...jobSeeker,
-        password : hashPassword
-    });
+        password: hashPassword
+    })
 }
 
 exports.signUpCompany = async (company) => {

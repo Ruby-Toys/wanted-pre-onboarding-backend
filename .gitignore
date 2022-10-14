@@ -5,3 +5,6 @@
 
 # docker
 /docker-compose.yml
+
+# coverage
+/coverage/**

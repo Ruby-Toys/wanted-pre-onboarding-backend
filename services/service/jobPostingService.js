@@ -69,7 +69,7 @@ exports.getJobPosting = async (jobPostingId) => {
         return jobPosting;
     }
 
-    throw notfoundJobPostingException.error();
+    throw notfoundJobPostingException();
 }
 
 exports.patchJobPosting = async (jobPosting) => {
@@ -78,7 +78,7 @@ exports.patchJobPosting = async (jobPosting) => {
         {where : {id : jobPosting.id}}
     );
 
-    if (isFailUpdate(updatedJobPosting)) throw notfoundJobPostingException.error();
+    if (isFailUpdate(updatedJobPosting)) throw notfoundJobPostingException();
 
     return updatedJobPosting;
 }
@@ -86,7 +86,7 @@ exports.patchJobPosting = async (jobPosting) => {
 exports.deleteJobPosting = async (jobPostingId) => {
     const result = await JobPosting.destroy({where: {id : jobPostingId}});
 
-    if (isFailDelete(result)) throw notfoundJobPostingException.error();
+    if (isFailDelete(result)) throw notfoundJobPostingException();
 
     return result;
 }

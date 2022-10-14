@@ -91,7 +91,7 @@ describe('postApplication 테스트', () => {
         }
 
         await expect(applicationService.postApplication(application))
-            .rejects.toThrow(existsApplicationException.error());
+            .rejects.toThrow(existsApplicationException());
     });
 
 

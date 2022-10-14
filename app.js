@@ -41,6 +41,4 @@ app.use(passport.session({}));
 
 routers(app);
 
-app.listen(app.get('port'), () => {
-    console.log('서버 실행!')
-})
+module.exports = app;

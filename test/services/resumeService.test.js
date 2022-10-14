@@ -1,6 +1,5 @@
 const {resumeService} = require('../../services');
-const {sequelize, Resume, JobSeeker} = require("../../models");
-const {notFoundJobSeekerException} = require("../../exceptions/jobSeekerException");
+const {sequelize, JobSeeker} = require("../../models");
 
 let jobSeeker;
 

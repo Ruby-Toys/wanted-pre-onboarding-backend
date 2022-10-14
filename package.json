@@ -4,15 +4,16 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app",
+    "start": "nodemon server",
     "test": "jest --runInBand",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage --runInBand"
   },
   "author": "ruby",
   "license": "MIT",
   "devDependencies": {
     "jest": "^29.1.2",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.0"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",

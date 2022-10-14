@@ -1,11 +1,6 @@
 const {httpStatusCode} = require("../routes/enums");
+const wrapException = require("./wrapException");
 
-exports.notFoundCompanyException = {
-    message : '회사 정보를 찾을 수 없습니다.',
-    status : httpStatusCode.NOT_FOUND,
-    error : () => {
-        const error = new Error(this.message);
-        error.status = this.status;
-        return error;
-    },
-}
+const message = '회사 정보를 찾을 수 없습니다.';
+
+exports.notFoundCompanyException = () => wrapException(httpStatusCode.NOT_FOUND, message);

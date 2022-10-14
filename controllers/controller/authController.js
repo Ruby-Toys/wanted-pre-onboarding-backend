@@ -21,7 +21,7 @@ exports.loginJobSeeker = (req, res, next) => {
                 return next(authError);
             }
             if (!jobSeeker) {
-                return res.send(info.message);
+                return res.status(httpStatusCode.UNAUTHORIZED).json({message: info.message});
             }
 
             // 여기에서 passport/index 에 작성한 부분으로 넘어감
@@ -35,7 +35,7 @@ exports.loginJobSeeker = (req, res, next) => {
                     console.error(loginError);
                     return next(loginError);
                 }
-                return res.redirect('/');
+                return res.status(httpStatusCode.OK).json();
             });
         }
     ) (req, res, next);
@@ -51,3 +51,35 @@ exports.signUpCompany = wrapAsync(async (req, res, next) => {
     };
     return res.status(httpStatusCode.OK).json(companyInfo);
 });
+
+exports.loginCompany = (req, res, next) => {
+    passport.authenticate(userType.COMPANY, {}, (authError, company, info) => {
+            if (authError) {
+                console.error(authError);
+                return next(authError);
+            }
+            if (!company) {
+                return res.status(httpStatusCode.UNAUTHORIZED).json({message: info.message});
+            }
+
+            const userInfo = {
+                id: company.id,
+                type: userType.COMPANY
+            }
+
+            return req.login(userInfo, loginError => {
+                if (loginError) {
+                    console.error(loginError);
+                    return next(loginError);
+                }
+                return res.status(httpStatusCode.OK).json();
+            });
+        }
+    ) (req, res, next);
+};
+
+exports.logout = (req, res) => {
+    req.logout();
+    req.session.destroy();
+    res.status(httpStatusCode.OK).json();
+};

@@ -1,10 +1,5 @@
 const {authService} = require('../../services/');
 const {sequelize, JobSeeker, Company} = require("../../models");
-const {existsEmailException} = require("../../exceptions/commonException");
-
-beforeAll(async () => {
-    await sequelize.sync({force : true});
-});
 
 describe('signUpJobSeeker 테스트',  () => {
 
@@ -17,7 +12,7 @@ describe('signUpJobSeeker 테스트',  () => {
     }
 
     beforeAll(async () => {
-        JobSeeker.destroy({truncate: true});
+        await sequelize.sync({force : true});
         await JobSeeker.create(existsJobSeeker);
     });
 
@@ -106,7 +101,7 @@ describe('signUpCompany 테스트', () => {
     }
 
     beforeAll(async () => {
-        Company.destroy({truncate: true});
+        await sequelize.sync({force : true});
         await Company.create(existsCompany)
     });
 

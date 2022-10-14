@@ -4,7 +4,6 @@ const {applicationController} = require("../../controllers");
 
 const router = express.Router();
 
-// router.post('/', isJobSeekerLoggedIn, applicationController.postApplication);
-router.post('/', applicationController.postApplication);
+router.post('/', isJobSeekerLoggedIn, applicationController.postApplication);
 
 module.exports = router;
