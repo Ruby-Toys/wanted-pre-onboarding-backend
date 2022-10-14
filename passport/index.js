@@ -17,8 +17,7 @@ module.exports = () => {
             JobSeeker.findOne({where: {id}})
                 .then(done(null, userInfo))
                 .catch(err => done(err));
-        }
-        else if (userType.COMPANY === type) {
+        } else if (userType.COMPANY === type) {
             console.log("회사 로그인 인증!");
             Company.findOne({where: {id}})
                 .then(done(null, userInfo))
