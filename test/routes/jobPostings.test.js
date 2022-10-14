@@ -289,3 +289,61 @@ describe('GET /jobPostings', () => {
         expect(result.body.length).toEqual(2);
     })
 })
+
+describe('GET /jobPostings/:id', () => {
+
+    let jobPostings;
+
+    beforeAll( async () => {
+        // const now = new Date();
+        // const deadlineAt = new Date(now.setMonth(now.getMonth() + 1));
+        // const jobPosting = {
+        //     title: '원티드 사이트 개발',
+        //     description: '원티드는 채용 공고 플랫폼 사업을 하고 있는 회사입니다',
+        //     country: '대한민국',
+        //     region: '서울',
+        //     position: '개발,백엔드',
+        //     requiredSkills: '자바, 스프링',
+        //     deadlineAt,
+        // }
+        //
+        // existsJobPosting = await jobPostingService.postJobPosting(jobPosting);
+        await sequelize.sync({force : true});
+        jobPostings = await getJobPostings();
+    })
+
+
+    test('존재하지 않는 채용공고 상세조회 요청시 404 NOT FOUND 응답',  done => {
+        const existsJobPosting = jobPostings[0];
+
+        request(app)
+            .get(`/jobPostings/${existsJobPosting.id + 99}`)
+            .expect(httpStatusCode.NOT_FOUND, done);
+    })
+
+    test('채용공고 상세 조회 성공', async () => {
+        const existsJobPosting = jobPostings[0];
+
+        const result = await request(app)
+            .get(`/jobPostings/${existsJobPosting.id}`)
+            .expect(httpStatusCode.OK);
+
+        expect(result.body.jobPosting.id).toEqual(existsJobPosting.id);
+        expect(result.body.jobPosting.title).toEqual(existsJobPosting.title);
+        expect(result.body.jobPosting.country).toEqual(existsJobPosting.country);
+        expect(result.body.jobPosting.region).toEqual(existsJobPosting.region);
+        expect(result.body.jobPosting.position).toEqual(existsJobPosting.position);
+        expect(result.body.jobPosting.requiredSkills).toEqual(existsJobPosting.requiredSkills);
+        expect(result.body.jobPosting.deadlineAt).toEqual(existsJobPosting.deadlineAt);
+        expect(result.body.jobPosting.company.name).toEqual(existsJobPosting.company.name);
+        expect(result.body.jobPosting.company.linkUrl).toEqual(existsJobPosting.company.linkUrl);
+        expect(result.body.relatedJobPostings.length).toEqual(2);
+
+        expect(result.body.relatedJobPostings.filter(jp => jp.companyId === existsJobPosting.company.id).length)
+            .toEqual(2);
+        expect(result.body.relatedJobPostings.filter(jp => jp.company.name === existsJobPosting.company.name).length)
+            .toEqual(2);
+        expect(result.body.relatedJobPostings.filter(jp => jp.company.linkUrl === existsJobPosting.company.linkUrl).length)
+            .toEqual(2);
+    })
+})

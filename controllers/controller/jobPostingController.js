@@ -21,7 +21,8 @@ exports.getJobPosting = wrapAsync(async (req, res, next) => {
     const jobPostingId = req.params.id;
 
     const jobPosting = await jobPostingService.getJobPosting(jobPostingId);
-    return res.status(httpStatusCode.OK).json(jobPosting);
+    const relatedJobPostings = jobPosting.relatedJobPostings;
+    return res.status(httpStatusCode.OK).json({jobPosting, relatedJobPostings});
 });
 
 exports.patchJobPosting = wrapAsync(async (req, res, next) => {

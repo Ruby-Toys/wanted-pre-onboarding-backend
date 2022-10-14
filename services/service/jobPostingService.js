@@ -45,7 +45,7 @@ exports.getJobPosting = async (jobPostingId) => {
         include: [
             {
                 model: Company,
-                attributes: ['name'],
+                attributes: ['name', 'linkUrl'],
             }
         ],
         where: {id: jobPostingId}
@@ -57,12 +57,12 @@ exports.getJobPosting = async (jobPostingId) => {
             include: [
                 {
                     model: Company,
-                    attributes: ['name'],
+                    attributes: ['name', 'linkUrl'],
                 }
             ],
             where: {
                 companyId,
-                [Op.not] : [{id : jobPostingId}]
+                [Op.not]: [{id: jobPostingId}]
             }
         });
 
