@@ -1,8 +1,9 @@
 const {Op} = require('sequelize');
-const {JobPosting, Company, sequelize} = require("../../models");
+const {JobPosting, Company} = require("../../models");
 const {isFailUpdate, isFailDelete} = require("../utils/queryUtils");
 const {getPaging} = require("../utils/pagingUtils");
 const {notfoundJobPostingException} = require("../../exceptions/jobPostingException");
+const {like} = require('../../models/query/condition');
 
 exports.postJobPosting = async (jobPosting) => {
     return JobPosting.create(jobPosting);
@@ -17,19 +18,19 @@ exports.getJobPostings = async (searchForm) => {
         include: [
             {
                 model: Company,
-                attributes: ['id', 'name'],
+                attributes: ['id', 'name']
             }
         ],
         where: {
             [Op.or] : [
                 // 검색어의 대상은 채용공고명, 내용, 국가, 지역, 포지션, 요기술, 회사명
-                {title : {[Op.like] : `%${search}%`}},
-                {description : {[Op.like] : `%${search}%`}},
-                {country : {[Op.like] : `%${search}%`}},
-                {region : {[Op.like] : `%${search}%`}},
-                {position : {[Op.like] : `%${search}%`}},
-                {requiredSkills : {[Op.like] : `%${search}%`}},
-                {'$company.name$' : {[Op.like] : `%${search}%`}}
+                like('title', search),
+                like('description', search),
+                like('country', search),
+                like('region', search),
+                like('position', search),
+                like('requiredSkills', search),
+                like('$company.name$', search),
             ],
         },
         offset: paging.offset,
